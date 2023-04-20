@@ -7,3 +7,4 @@ com\common\utils\Constant$MenuType.class
 com\common\utils\Constant$ScheduleStatus.class
 com\common\utils\R.class
 com\common\xss\HTMLFilter.class
+com\common\dto\FileDTO.class

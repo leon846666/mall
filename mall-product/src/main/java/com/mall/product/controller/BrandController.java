@@ -1,5 +1,6 @@
 package com.mall.product.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -15,7 +16,9 @@ import com.mall.product.entity.BrandEntity;
 import com.mall.product.service.BrandService;
 import com.common.utils.PageUtils;
 import com.common.utils.R;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 
 
 /**
@@ -59,7 +62,7 @@ public class BrandController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@Valid @RequestBody BrandEntity brand){
 		brandService.save(brand);
 
         return R.ok();
@@ -86,5 +89,13 @@ public class BrandController {
 
         return R.ok();
     }
+
+
+    @RequestMapping("/uploadBrandLogo")
+    //@RequiresPermissions("product:brand:delete")
+    public R uploadBrandLogo(@RequestBody MultipartFile file) throws IOException {
+        return R.ok();
+    }
+
 
 }

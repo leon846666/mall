@@ -17,7 +17,14 @@ spring:
             - Path= /api/product/**
           filters:
             - RewritePath=/api/?(?<segment>.*), /$\{segment}
-#http://localhost:88/api/product/category/listTree rewrite to  http://localhost:10000/product/category/listTree
+        #http://localhost:88/api/product/category/listTree rewrite to  http://localhost:10000/product/category/listTree
+        - id: third_route
+          uri: lb://mall-thirdparty
+          predicates:
+            - Path= /api/third/** #all request with api as prefix will be routed to thirdparty
+          filters:
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}
+        #http://localhost:88/api/captcha.jpg rewrite to  http://localhost:30000/
         - id: admin_route
           uri: lb://renren-fast
           predicates:
@@ -25,4 +32,5 @@ spring:
           filters:
             - RewritePath=/api/?(?<segment>.*), /renren-fast/$\{segment}
 #http://localhost:88/api/captcha.jpg rewrite to  http://localhost:8080/renren-fast
+
 
