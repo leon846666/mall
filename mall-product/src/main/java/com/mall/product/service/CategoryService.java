@@ -21,5 +21,8 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<CategoryEntity> listTree(Map<String, Object> params);
 
     void deleteBatchIds(List<Long> asList);
+
+    Long[] getCategoryPath(Long catelogId);
+
 }
 

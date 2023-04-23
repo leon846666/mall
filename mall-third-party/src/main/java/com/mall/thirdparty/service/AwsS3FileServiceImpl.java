@@ -33,7 +33,7 @@ public class AwsS3FileServiceImpl implements AwsS3FileService {
     private AmazonS3 amazonS3;
 
     @Value("${aws.bucket}")
-    private  String bucket;
+    private String bucket;
 
 
     public static File multipartFileToFile(MultipartFile file) throws Exception {
@@ -75,15 +75,15 @@ public class AwsS3FileServiceImpl implements AwsS3FileService {
             CannedAccessControlList acl = CannedAccessControlList.PublicRead;
 
             // Create a PutObjectRequest with the key, file, and canned ACL
-             fileName = UUID.randomUUID().toString();
-            PutObjectRequest request = new PutObjectRequest(bucket, fileName,multipartFileToFile(file)).withCannedAcl(acl);
+            int i = file.getOriginalFilename().lastIndexOf('.');
+            String suffix = file.getOriginalFilename().substring(i);
+            log.info("file suffix {}", suffix);
+            fileName = UUID.randomUUID() + suffix;
+            PutObjectRequest request = new PutObjectRequest(bucket, fileName, multipartFileToFile(file)).withCannedAcl(acl);
 
-            PutObjectResult putObjectResult = amazonS3.putObject(request);
-
+            amazonS3.putObject(request);
         } catch (AmazonServiceException e) {
             throw new IllegalStateException("Failed to upload the file", e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

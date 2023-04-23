@@ -8,3 +8,4 @@ com\common\utils\Constant$ScheduleStatus.class
 com\common\utils\R.class
 com\common\xss\HTMLFilter.class
 com\common\dto\FileDTO.class
+com\common\exception\BizCodeEnum.class
