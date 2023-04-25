@@ -8,13 +8,20 @@ import com.common.utils.Query;
 import com.mall.product.dao.BrandDao;
 import com.mall.product.entity.BrandEntity;
 import com.mall.product.service.BrandService;
+import com.mall.product.service.CategoryBrandRelationService;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
 @Service("brandService")
+@AllArgsConstructor
 public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
+
+    private CategoryBrandRelationService categoryBrandRelationService;
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -24,6 +31,18 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void updateBrand(BrandEntity brand) {
+        this.updateById(brand);
+        if(StringUtils.isNotEmpty(brand.getName())){
+            // sync the category brand related data
+            categoryBrandRelationService.updateBrand(brand.getBrandId(),brand.getName());
+
+            //TODO future columns
+
+        }
     }
 
 }

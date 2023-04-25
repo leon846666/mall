@@ -75,6 +75,7 @@ public class BrandController {
     //@RequiresPermissions("product:brand:update")
     public R update(@RequestBody BrandEntity brand){
 		brandService.updateById(brand);
+		brandService.updateBrand(brand);
 
         return R.ok();
     }
