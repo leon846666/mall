@@ -1,16 +1,19 @@
 package com.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.mall.product.entity.AttrEntity;
+import com.mall.product.service.AttrAttrgroupRelationService;
+import com.mall.product.service.AttrService;
 import com.mall.product.service.CategoryService;
+import com.mall.product.vo.AttrGroupRelationVo;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mall.product.entity.AttrGroupEntity;
 import com.mall.product.service.AttrGroupService;
@@ -28,12 +31,37 @@ import com.common.utils.R;
  */
 @RestController
 @RequestMapping("product/attrgroup")
+@AllArgsConstructor
 public class AttrGroupController {
-    @Autowired
     private AttrGroupService attrGroupService;
 
-    @Autowired
     private CategoryService categoryService;
+
+    private AttrService attrService;
+
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    /**
+     * 列表
+     */
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    // @RequiresPermissions("product:attrgroup:list")
+    public R attrNoRelation(@RequestParam Map<String, Object> params,@PathVariable("attrgroupId") Long attrgroupId){
+        PageUtils page = attrService.getNoRelationAttr(params, attrgroupId);
+
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 列表
+     */
+    @GetMapping("/{attrgroupId}/attr/relation")
+    // @RequiresPermissions("product:attrgroup:list")
+    public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId){
+        List<AttrEntity> list =  attrService.getRelationAttr(attrgroupId);
+
+        return R.ok().put("data", list);
+    }
     /**
      * 列表
      */
@@ -43,6 +71,27 @@ public class AttrGroupController {
         PageUtils page = attrGroupService.queryPage(params,categoryId);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * add
+     */
+    @RequestMapping("/attr/relation")
+    //@RequiresPermissions("product:attr:delete")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos){
+        attrAttrgroupRelationService.saveBatch(vos);
+        return R.ok();
+    }
+
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/attr/relation/delete")
+    //@RequiresPermissions("product:attr:delete")
+    public R deleteRelation(@RequestBody AttrGroupRelationVo[] vos){
+        attrService.deleteRelation(vos);
+        return R.ok();
     }
 
 

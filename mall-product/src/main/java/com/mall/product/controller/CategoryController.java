@@ -36,7 +36,7 @@ public class CategoryController {
     /**
      * a tree like data to display all the categories
      */
-    @RequestMapping("/listTree")
+    @RequestMapping("/list/tree")
     // @RequiresPermissions("product:category:list")
     public R listTree(@RequestParam Map<String, Object> params){
         List<CategoryEntity> listTree= categoryService.listTree(params);

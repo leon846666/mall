@@ -2,8 +2,10 @@ package com.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.common.utils.PageUtils;
+import com.mall.product.entity.AttrEntity;
 import com.mall.product.entity.AttrGroupEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
